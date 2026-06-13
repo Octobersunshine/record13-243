@@ -635,24 +635,129 @@ def _get_supported_consulates() -> list:
 
 SUPPORTED_CONSULATES = _get_supported_consulates()
 
+MATERIAL_ALIASES = {
+    "护照原件": ["护照", "有效护照", "因私护照"],
+    "护照复印件": ["护照副本", "护照复印", "护照扫描件", "护照首页复印件"],
+    "护照原件彩色复印件": ["护照彩色复印件", "彩印护照"],
+    "身份证复印件": ["身份证", "居民身份证复印件", "身份证正反面复印件"],
+    "户口本复印件": ["户口本", "户口簿复印件", "全家户口本"],
+    "2寸白底照片": ["2寸照片", "白底照片", "签证照片", "两寸照片", "2寸白底彩照"],
+    "签证申请表": ["申请表", "签证表", "申请表格"],
+    "DS-160确认页": ["DS160", "DS-160", "DS160确认页", "美国签证申请表"],
+    "DS-160提交确认页条形码页": ["DS-160条形码", "DS160条形码页"],
+    "预约确认页": ["预约单", "面签预约单", "预约信"],
+    "面签预约单（北京大使馆）": ["北京面签预约单"],
+    "签证费收据": ["签证费发票", "缴费凭证", "签证费凭证"],
+    "银行流水": ["银行卡流水", "银行对账单", "工资流水", "银行账单", "账户流水", "储蓄卡流水"],
+    "存款证明": ["银行存款证明", "存款单", "资金证明"],
+    "不少于2万元存款证明": ["2万存款证明", "存款证明（2万）"],
+    "房产证复印件": ["房产证", "不动产证", "房产证明"],
+    "车辆行驶证复印件": ["行驶证", "车辆行驶证", "车本"],
+    "结婚证复印件": ["结婚证", "婚姻证明"],
+    "在职证明": ["在职信", "单位证明", "工作证明", "雇佣证明"],
+    "营业执照复印件": ["营业执照", "公司营业执照", "工商执照"],
+    "英文版在职证明": ["英文在职证明"],
+    "公司派遣信": ["派遣函", "商务派遣信"],
+    "赴美商务说明函": ["商务说明函", "赴美商务函"],
+    "纳税证明": ["完税证明", "纳税凭证", "税务证明"],
+    "个人所得税纳税证明": ["个税证明", "个税单", "纳税证明（个税）", "个人所得税完税证明"],
+    "个人所得税证明": ["个税证明", "个税纳税证明"],
+    "社保缴纳证明": ["社保证明", "社保缴费记录", "社保单"],
+    "往返机票预订单": ["机票订单", "机票预订单", "往返机票", "机票行程单"],
+    "往返机票确认单": ["机票确认单", "已出票机票"],
+    "酒店预订单": ["酒店订单", "住宿证明", "酒店确认单", "住宿预订单"],
+    "全程酒店订单确认（含入住人姓名）": ["全程酒店订单"],
+    "旅行计划行程单": ["行程单", "旅行计划", "日程安排"],
+    "滞在预定表": ["滞在表", "行程预定表"],
+    "旅行保险": ["境外保险", "旅游保险", "医疗险", "申根保险"],
+    "邀请函": ["邀请信", "邀请涵"],
+    "商务往来证明": ["商务凭证", "合作证明"],
+    "招聘理由书": ["招聘理由", "邀请理由书"],
+    "身元保证书": ["身元保证", "日方保证书"],
+    "法人登记簿誊本": ["法人誊本", "日本法人登记"],
+    "个人简历": ["简历", "履历书"],
+    "韩国入境申请书": ["入境申请书", "韩国入境表"],
+    "签证发给认定书": ["签证认定书", "发给认定书"],
+    "赴韩签证申请个人简历": ["赴韩简历"],
+    "韩国邀请函": ["韩方邀请函"],
+    "韩国事业者登录证": ["韩方事业者登录证"],
+    "亲属关系证明": ["亲属证明", "关系证明"],
+    "亲属关系公证书": ["亲属公证", "关系公证书"],
+    "邀请人身份证明": ["邀请人身份证", "邀请人护照"],
+    "邀请人资金担保": ["资金担保", "邀请人担保"],
+    "I-134担保书": ["I-134", "I134表", "经济担保书"],
+    "邀请人在美国的纳税证明": ["邀请人W2", "美国邀请人税单"],
+    "在澳亲属的VEVO签证状态查询": ["VEVO查询", "VEVO状态"],
+    "在英亲属的银行流水": ["邀请人银行流水（英）"],
+    "在线申请表打印件": ["在线申请表"],
+    "预约确认信": ["英国预约信"],
+    "肺结核检测证明": ["肺结核证明", "体检证明", "TB检测"],
+    "申根签证申请表": ["申根申请表"],
+    "VAF申请表附加页": ["VAF附加页", "申根附加表"],
+    "机票预订单": ["机票订单", "申根机票"],
+    "行程单": ["申根行程单", "详细行程"],
+    "婚姻状况证明": ["婚姻证明", "未婚证明"],
+    "派遣信": ["申根派遣信"],
+    "在申根亲属的护照首页+签证页复印件": ["申根亲属护照复印件"],
+    "在申根亲属的房屋租赁合同": ["申根亲属租房合同"],
+    "在日亲属住民票": ["住民票", "日本住民票"],
+    "临时居民签证申请表": ["加拿大申请表", "IMM申请表"],
+    "家庭信息表": ["加拿大家庭信息表"],
+    "教育和就业细节表": ["教育就业表"],
+    "旅行历史": ["过往旅行记录", "旧签证记录"],
+    "商务邀请函": ["加方商务邀请函"],
+    "邀请人的IMM5604表": ["IMM5604表", "加拿大邀请表"],
+    "临时居民访问签证申请核对表": ["IMM5484E", "加拿大核对表"],
+    "代理人信息表": ["IMM5476E", "代理表"],
+    "签证申请校对表": ["英国校对表"],
+    "旧护照原件": ["旧护照", "过期护照"],
+    "彩色护照首页复印件": ["彩印护照首页", "彩色护照复印件"],
+    "护照公证件": ["护照公证", "护照原件公证"],
+    "行程计划": ["澳洲行程"],
+    "邀请信": ["澳洲邀请信"],
+    "商务背景材料": ["商务背景"],
+    "担保信": ["澳洲担保信"],
+    "关系证明公证书": ["澳方关系公证"],
+    "领区归属证明": ["领区证明", "居住地证明", "暂住证/居住证", "暂住证", "居住证", "居住证明", "暂住证居住证", "暂住证和居住证", "领区归属证明"],
+    "紧急联系人信息表": ["紧急联系人表"],
+    "旅行计划英文版": ["英文行程单", "英文旅行计划"],
+    "泰国外交部批文": ["泰国批文", "泰国劳工部批文"],
+    "泰方邀请函": ["泰国邀请信"],
+    "泰方公司营业执照": ["泰方营业执照"],
+    "机酒真实付款凭证": ["机酒付款证明", "机票酒店付款凭证"],
+    "签证申请个人简历": ["签证简历"],
+}
+
+
+def _normalize_material_name(name: str) -> str:
+    if not name:
+        return ""
+    return "".join(ch for ch in name.strip() if not ch.isspace()).lower()
+
+
+NAME_TO_CANONICAL = {}
+for canonical, aliases in MATERIAL_ALIASES.items():
+    key = _normalize_material_name(canonical)
+    NAME_TO_CANONICAL[key] = canonical
+    for alias in aliases:
+        NAME_TO_CANONICAL[_normalize_material_name(alias)] = canonical
+
+
+def _match_material_name(user_name: str) -> Optional[str]:
+    if not user_name:
+        return None
+    norm = _normalize_material_name(user_name)
+    if norm in NAME_TO_CANONICAL:
+        return NAME_TO_CANONICAL[norm]
+
+    for key, canonical in NAME_TO_CANONICAL.items():
+        if norm and (norm in key or key in norm):
+            return canonical
+    return None
+
 
 class VisaChecklistService:
-    def get_checklist(self, country: str, visa_type_str: str, consulate: Optional[str] = None) -> dict:
-        visa_type = self._parse_visa_type(visa_type_str)
-        if visa_type is None:
-            return {"error": f"不支持的签证类型: {visa_type_str}，请选择: 旅游/商务/探亲"}
-
-        if country not in COUNTRY_OVERRIDES:
-            return {"error": f"不支持的目的地国家: {country}，支持的国家: {', '.join(SUPPORTED_COUNTRIES)}"}
-
-        if consulate:
-            available_consulates = self.list_consulates_for_country(country)
-            if consulate not in available_consulates:
-                return {
-                    "error": f"{country} 暂不支持 {consulate} 领事馆，该国家支持的领事馆: {', '.join(available_consulates)}",
-                    "available_consulates": available_consulates,
-                }
-
+    def _build_materials(self, country: str, visa_type: VisaType, consulate: Optional[str] = None):
         common = COMMON_MATERIALS.get(visa_type, [])
         extra = COUNTRY_OVERRIDES.get(country, {}).get(visa_type, [])
 
@@ -663,7 +768,7 @@ class VisaChecklistService:
             override = CONSULATE_OVERRIDES.get(country, {}).get(consulate, {}).get(visa_type)
             if override:
                 for new_item in override.add:
-                    all_materials.append(new_item)
+                    all_materials.append(copy.deepcopy(new_item))
                     consulate_diff_summary["added"].append(new_item.name)
 
                 name_to_index = {}
@@ -685,6 +790,25 @@ class VisaChecklistService:
             if item.name not in seen_names:
                 seen_names.add(item.name)
                 unique_materials.append(item)
+        return unique_materials, consulate_diff_summary
+
+    def get_checklist(self, country: str, visa_type_str: str, consulate: Optional[str] = None) -> dict:
+        visa_type = self._parse_visa_type(visa_type_str)
+        if visa_type is None:
+            return {"error": f"不支持的签证类型: {visa_type_str}，请选择: 旅游/商务/探亲"}
+
+        if country not in COUNTRY_OVERRIDES:
+            return {"error": f"不支持的目的地国家: {country}，支持的国家: {', '.join(SUPPORTED_COUNTRIES)}"}
+
+        if consulate:
+            available_consulates = self.list_consulates_for_country(country)
+            if consulate not in available_consulates:
+                return {
+                    "error": f"{country} 暂不支持 {consulate} 领事馆，该国家支持的领事馆: {', '.join(available_consulates)}",
+                    "available_consulates": available_consulates,
+                }
+
+        unique_materials, consulate_diff_summary = self._build_materials(country, visa_type, consulate)
 
         categorized = {}
         for item in unique_materials:
@@ -718,6 +842,143 @@ class VisaChecklistService:
                 "modified_items": consulate_diff_summary["modified"],
             }
 
+        return result
+
+    def audit_materials(self, country: str, visa_type_str: str, user_materials: list, consulate: Optional[str] = None) -> dict:
+        visa_type = self._parse_visa_type(visa_type_str)
+        if visa_type is None:
+            return {"error": f"不支持的签证类型: {visa_type_str}，请选择: 旅游/商务/探亲"}
+
+        if country not in COUNTRY_OVERRIDES:
+            return {"error": f"不支持的目的地国家: {country}，支持的国家: {', '.join(SUPPORTED_COUNTRIES)}"}
+
+        if consulate:
+            available_consulates = self.list_consulates_for_country(country)
+            if consulate not in available_consulates:
+                return {
+                    "error": f"{country} 暂不支持 {consulate} 领事馆，该国家支持的领事馆: {', '.join(available_consulates)}",
+                    "available_consulates": available_consulates,
+                }
+
+        unique_materials, consulate_diff_summary = self._build_materials(country, visa_type, consulate)
+
+        def _canon(name):
+            return _match_material_name(name) or name
+
+        required_map = {}
+        optional_map = {}
+        for m in unique_materials:
+            key = _canon(m.name)
+            if m.required:
+                required_map[key] = m
+            else:
+                optional_map[key] = m
+
+        submitted_required = []
+        submitted_optional = []
+        missing_required = []
+        missing_optional = []
+        unrecognized = []
+        matched_user = {}
+
+        for user_mat in user_materials:
+            if isinstance(user_mat, dict):
+                name = user_mat.get("name", "").strip()
+                provided = user_mat.get("provided", True)
+            else:
+                name = str(user_mat).strip()
+                provided = True
+            if not name:
+                continue
+            canonical = _match_material_name(name)
+            if canonical is None:
+                unrecognized.append({"name": name, "note": "未在标准材料清单中识别，请人工确认"})
+                continue
+            if canonical in matched_user:
+                matched_user[canonical]["user_inputs"].append(name)
+                continue
+            info = {"canonical": canonical, "user_inputs": [name], "provided": provided}
+            matched_user[canonical] = info
+
+            if canonical in required_map:
+                mat = required_map[canonical]
+                entry = {"name": mat.name, "notes": mat.notes, "user_inputs": info["user_inputs"]}
+                if provided:
+                    submitted_required.append(entry)
+                else:
+                    missing_required.append({**entry, "note": "必填材料，用户标记为未提供"})
+            elif canonical in optional_map:
+                mat = optional_map[canonical]
+                entry = {"name": mat.name, "notes": mat.notes, "user_inputs": info["user_inputs"]}
+                if provided:
+                    submitted_optional.append(entry)
+                else:
+                    missing_optional.append({**entry, "note": "选填材料，用户标记为未提供"})
+
+        for canonical, mat in required_map.items():
+            if canonical not in matched_user:
+                missing_required.append({"name": mat.name, "notes": mat.notes, "note": "用户未提交此必填材料"})
+        for canonical, mat in optional_map.items():
+            if canonical not in matched_user:
+                missing_optional.append({"name": mat.name, "notes": mat.notes, "note": "用户未提交此选填材料"})
+
+        total_required = len(required_map)
+        submitted_required_count = len(submitted_required)
+        if total_required > 0:
+            completion_rate = round(submitted_required_count / total_required * 100, 1)
+        else:
+            completion_rate = 100.0
+
+        if completion_rate == 100.0:
+            overall = "合格"
+            overall_code = "pass"
+        elif completion_rate >= 80.0:
+            overall = "基本合格，缺少少量必填材料"
+            overall_code = "almost"
+        else:
+            overall = "不合格，缺少较多必填材料"
+            overall_code = "fail"
+
+        warnings = []
+        if unrecognized:
+            warnings.append(f"有 {len(unrecognized)} 项材料未被识别，请人工核对")
+        if missing_required:
+            warnings.append(f"缺少 {len(missing_required)} 项必填材料")
+        if missing_optional:
+            warnings.append(f"缺少 {len(missing_optional)} 项选填材料（非必须，但有助于提高出签率）")
+
+        suggestions = []
+        for m in missing_required[:5]:
+            suggestions.append(f"请尽快准备「{m['name']}」: {m['notes']}" if m["notes"] else f"请尽快准备「{m['name']}」")
+        if len(missing_required) > 5:
+            suggestions.append(f"另外还有 {len(missing_required) - 5} 项必填材料待准备")
+
+        result = {
+            "country": country,
+            "visa_type": visa_type.value,
+            "overall": overall,
+            "overall_code": overall_code,
+            "completion_rate": completion_rate,
+            "summary": {
+                "total_required": total_required,
+                "submitted_required": submitted_required_count,
+                "missing_required_count": len(missing_required),
+                "total_optional": len(optional_map),
+                "submitted_optional": len(submitted_optional),
+                "missing_optional_count": len(missing_optional),
+                "unrecognized_count": len(unrecognized),
+            },
+            "submitted_required": submitted_required,
+            "submitted_optional": submitted_optional,
+            "missing_required": missing_required,
+            "missing_optional": missing_optional,
+            "unrecognized": unrecognized,
+            "warnings": warnings,
+            "suggestions": suggestions,
+        }
+
+        if consulate:
+            result["consulate"] = consulate
         return result
 
     def _parse_visa_type(self, visa_type_str: str) -> Optional[VisaType]:
@@ -793,12 +1054,57 @@ def list_consulates():
     return jsonify({"consulates": service.list_consulates()})
 
 
+@app.route("/api/audit", methods=["POST"])
+def audit_materials():
+    data = request.get_json(silent=True) or {}
+    country = (data.get("country") or "").strip()
+    visa_type = (data.get("visa_type") or "").strip()
+    consulate = (data.get("consulate") or "").strip() or None
+    user_materials = data.get("materials") or []
+
+    if not country or not visa_type:
+        return jsonify({
+            "error": "请在 JSON Body 中提供 country、visa_type 和 materials 数组（consulate 可选）",
+            "request_schema": {
+                "country": "string (必填)",
+                "visa_type": "string (必填: 旅游/商务/探亲)",
+                "consulate": "string (可选)",
+                "materials": [
+                    "string（材料名称）",
+                    {"name": "string", "provided": "bool（默认true）"}
+                ],
+            },
+            "example_request": {
+                "country": "美国",
+                "visa_type": "旅游",
+                "consulate": "北京",
+                "materials": [
+                    "护照原件",
+                    "身份证",
+                    {"name": "银行流水", "provided": False},
+                    "在职证明",
+                    "我的神秘材料",
+                ],
+            },
+        }), 400
+
+    if not isinstance(user_materials, list) or not user_materials:
+        return jsonify({"error": "materials 必须为非空数组"}), 400
+
+    result = service.audit_materials(country, visa_type, user_materials, consulate)
+    if "error" in result:
+        return jsonify(result), 400
+
+    return jsonify(result)
+
+
 @app.route("/", methods=["GET"])
 def index():
     return jsonify({
-        "service": "签证材料清单生成服务（支持领事馆差异）",
+        "service": "签证材料清单生成服务（支持领事馆差异 & 材料审核）",
         "endpoints": {
             "GET /api/checklist": "获取签证材料清单 (参数: country, visa_type, consulate[可选])",
+            "POST /api/audit": "审核用户提交的材料是否齐全 (JSON Body)",
             "GET /api/countries": "获取支持的国家列表",
             "GET /api/visa_types": "获取支持的签证类型列表",
             "GET /api/consulates": "获取支持的领事馆列表 (可传 country 参数查看某国家)",
@@ -807,16 +1113,148 @@ def index():
             "不指定领事馆": "/api/checklist?country=美国&visa_type=旅游",
             "北京领事馆": "/api/checklist?country=美国&visa_type=旅游&consulate=北京",
             "上海领事馆": "/api/checklist?country=日本&visa_type=旅游&consulate=上海",
+            "材料审核": "POST /api/audit { country, visa_type, materials: [...] }",
             "查看日本支持的领事馆": "/api/consulates?country=日本",
         },
     })
 
 
-def cli():
+def _print_audit_result(result):
+    print(f"\n{'=' * 50}")
+    title = f"  {result['country']}"
+    if result.get("consulate"):
+        title += f"·{result['consulate']}领事馆"
+    title += f" - {result['visa_type']}签证 材料审核结果"
+    print(title)
+    s = result["summary"]
+    print(f"  总体结论: {'✅' if result['overall_code']=='pass' else '⚠️' if result['overall_code']=='almost' else '❌'} {result['overall']}")
+    print(f"  完成度: {result['completion_rate']}% (必填 {s['submitted_required']}/{s['total_required']}, 选填 {s['submitted_optional']}/{s['total_optional']})")
+    if result["warnings"]:
+        print("  提示:")
+        for w in result["warnings"]:
+            print(f"    · {w}")
+    print(f"{'=' * 50}")
+
+    if result["missing_required"]:
+        print(f"\n❌ 缺少的必填材料（{len(result['missing_required'])}项）:")
+        for m in result["missing_required"]:
+            line = f"  · {m['name']}"
+            if m.get("note"):
+                line += f"  [{m['note']}]"
+            if m.get("notes"):
+                line += f"\n      说明: {m['notes']}"
+            print(line)
+
+    if result["submitted_required"]:
+        print(f"\n✅ 已提供的必填材料（{len(result['submitted_required'])}项）:")
+        for m in result["submitted_required"]:
+            line = f"  · {m['name']}"
+            if m.get("user_inputs") and m["user_inputs"] != [m["name"]]:
+                line += f"  (你输入的: {'/'.join(m['user_inputs'])})"
+            print(line)
+
+    if result["missing_optional"]:
+        print(f"\n🔲 未提交的选填材料（{len(result['missing_optional'])}项，有助于出签率）:")
+        for m in result["missing_optional"][:10]:
+            line = f"  · {m['name']}"
+            if m.get("notes"):
+                line += f"  ({m['notes'][:30]})"
+            print(line)
+        if len(result["missing_optional"]) > 10:
+            print(f"  · 另外还有 {len(result['missing_optional'])-10} 项未显示...")
+
+    if result["submitted_optional"]:
+        print(f"\n✅ 已提供的选填材料（{len(result['submitted_optional'])}项）:")
+        for m in result["submitted_optional"]:
+            print(f"  · {m['name']}")
+
+    if result["unrecognized"]:
+        print(f"\n⚠️ 无法识别的材料（{len(result['unrecognized'])}项，请人工核对）:")
+        for m in result["unrecognized"]:
+            print(f"  · {m['name']}  ({m['note']})")
+
+    if result["suggestions"]:
+        print(f"\n💡 下一步建议:")
+        for s in result["suggestions"]:
+            print(f"  → {s}")
+    print()
+
+
+def cli_audit():
     print("=" * 50)
-    print("       签证材料清单生成服务（支持领事馆差异）")
+    print("       签证材料审核模式")
     print("=" * 50)
 
+    country = input("\n请输入目的地国家: ").strip()
+    if not country:
+        print("未输入国家，返回主菜单")
+        return
+    visa_type = input("请输入签证类型 (旅游/商务/探亲): ").strip()
+    if not visa_type:
+        print("未输入签证类型，返回主菜单")
+        return
+
+    available_consulates = service.list_consulates_for_country(country)
+    consulate = None
+    if available_consulates:
+        print(f"  该国家支持的领事馆: {', '.join(available_consulates)}")
+        c = input("请输入领事馆 (直接回车忽略): ").strip()
+        if c:
+            consulate = c
+
+    print("\n请输入你已准备好的材料，每行一项，输入空行结束:")
+    print("  提示: 输入 材料名=未准备 或 材料名=否 可以标记为未提供")
+    user_materials = []
+    while True:
+        line = input("  > ").strip()
+        if not line:
+            break
+        if "=" in line:
+            parts = line.split("=", 1)
+            name = parts[0].strip()
+            val = parts[1].strip().lower()
+            provided = val not in ("否", "no", "n", "未准备", "missing", "0", "false")
+            user_materials.append({"name": name, "provided": provided})
+        else:
+            user_materials.append(line)
+
+    if not user_materials:
+        print("未输入任何材料，返回主菜单")
+        return
+
+    result = service.audit_materials(country, visa_type, user_materials, consulate)
+    if "error" in result:
+        print(f"\n❌ {result['error']}")
+        return
+    _print_audit_result(result)
+
+
+def cli():
+    print("=" * 50)
+    print("       签证材料清单生成服务")
+    print("       支持领事馆差异 & 材料审核")
+    print("=" * 50)
+
+    while True:
+        print("\n" + "-" * 50)
+        print("请选择功能:")
+        print("  1) 查询签证材料清单")
+        print("  2) 审核我已准备的材料")
+        print("  q) 退出")
+        choice = input("请输入选项 (1/2/q): ").strip().lower()
+
+        if choice == "q":
+            print("再见！")
+            break
+        elif choice == "1":
+            _cli_checklist()
+        elif choice == "2":
+            cli_audit()
+        else:
+            print("无效选项，请重新输入")
+
+
+def _cli_checklist():
     countries = service.list_countries()
     print(f"\n支持的目的地国家: {', '.join(countries)}")
 
@@ -826,60 +1264,56 @@ def cli():
     consulates = service.list_consulates()
     print(f"支持的领事馆: {', '.join(consulates)}（可选，不选则返回通用清单）")
 
-    while True:
-        print("-" * 50)
-        country = input("\n请输入目的地国家 (输入 q 退出): ").strip()
-        if country.lower() == "q":
-            print("再见！")
-            break
+    country = input("\n请输入目的地国家: ").strip()
+    if not country:
+        print("未输入国家，返回主菜单")
+        return
 
-        visa_type = input("请输入签证类型 (旅游/商务/探亲): ").strip()
-        if visa_type.lower() == "q":
-            print("再见！")
-            break
+    visa_type = input("请输入签证类型 (旅游/商务/探亲): ").strip()
+    if not visa_type:
+        print("未输入签证类型，返回主菜单")
+        return
 
-        available_consulates = service.list_consulates_for_country(country)
-        if available_consulates:
-            print(f"  该国家支持的领事馆: {', '.join(available_consulates)}")
-        consulate = input("请输入领事馆 (直接回车忽略): ").strip()
-        if consulate.lower() == "q":
-            print("再见！")
-            break
-        if not consulate:
-            consulate = None
+    available_consulates = service.list_consulates_for_country(country)
+    consulate = None
+    if available_consulates:
+        print(f"  该国家支持的领事馆: {', '.join(available_consulates)}")
+        c = input("请输入领事馆 (直接回车忽略): ").strip()
+        if c:
+            consulate = c
 
-        result = service.get_checklist(country, visa_type, consulate)
+    result = service.get_checklist(country, visa_type, consulate)
 
-        if "error" in result:
-            print(f"\n❌ {result['error']}")
-            continue
+    if "error" in result:
+        print(f"\n❌ {result['error']}")
+        return
 
-        print(f"\n{'=' * 50}")
-        title = f"  {result['country']}"
-        if result.get("consulate"):
-            title += f"·{result['consulate']}领事馆"
-        title += f" - {result['visa_type']}签证 材料清单"
-        print(title)
-        print(f"  共 {result['total_materials']} 项 (必填 {result['required_count']} / 选填 {result['optional_count']})")
-        if result.get("consulate_changes"):
-            cc = result["consulate_changes"]
-            print(f"  领事馆差异: 新增 {cc['added_count']} 项, 修改 {cc['modified_count']} 项")
-            if cc["added_items"]:
-                print(f"    新增: {', '.join(cc['added_items'])}")
-            if cc["modified_items"]:
-                print(f"    修改: {', '.join(cc['modified_items'])}")
-        print(f"{'=' * 50}")
+    print(f"\n{'=' * 50}")
+    title = f"  {result['country']}"
+    if result.get("consulate"):
+        title += f"·{result['consulate']}领事馆"
+    title += f" - {result['visa_type']}签证 材料清单"
+    print(title)
+    print(f"  共 {result['total_materials']} 项 (必填 {result['required_count']} / 选填 {result['optional_count']})")
+    if result.get("consulate_changes"):
+        cc = result["consulate_changes"]
+        print(f"  领事馆差异: 新增 {cc['added_count']} 项, 修改 {cc['modified_count']} 项")
+        if cc["added_items"]:
+            print(f"    新增: {', '.join(cc['added_items'])}")
+        if cc["modified_items"]:
+            print(f"    修改: {', '.join(cc['modified_items'])}")
+    print(f"{'=' * 50}")
 
-        for category, items in result["categories"].items():
-            print(f"\n【{category}】")
-            for item in items:
-                tag = "✅必填" if item["required"] else "🔲选填"
-                line = f"  {tag} {item['name']}"
-                if item["notes"]:
-                    line += f"  ({item['notes']})"
-                print(line)
+    for category, items in result["categories"].items():
+        print(f"\n【{category}】")
+        for item in items:
+            tag = "✅必填" if item["required"] else "🔲选填"
+            line = f"  {tag} {item['name']}"
+            if item["notes"]:
+                line += f"  ({item['notes']})"
+            print(line)
 
-        print()
+    print()
 
 
 if __name__ == "__main__":
